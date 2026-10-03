@@ -32,3 +32,25 @@
     nodes.forEach(function (n) { io.observe(n); });
   }
 })();
+
+// Click-to-load YouTube embeds (privacy friendly): nothing from YouTube loads until play is pressed.
+(function () {
+  document.querySelectorAll(".yt-lite").forEach(function (box) {
+    var btn = box.querySelector(".yt-btn");
+    if (!btn) return;
+    btn.addEventListener("click", function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+      e.preventDefault();
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(box.getAttribute("data-yt")) + "?autoplay=1&rel=0";
+      f.title = box.getAttribute("data-title") || "YouTube video";
+      f.width = 1280; f.height = 720;
+      f.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
+      f.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+      f.setAttribute("allowfullscreen", "");
+      box.appendChild(f);
+      btn.remove();
+      f.focus();
+    });
+  });
+})();
