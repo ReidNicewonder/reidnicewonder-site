@@ -514,3 +514,16 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .iv-link-card:hover .card-link i { transform: translateX(6px); }
 @media (max-width: 960px) { .iv-substack { grid-template-columns: 1fr; } }
 @media (max-width: 800px) { .iv-feature-grid, .iv-link-grid { grid-template-columns: 1fr; } }
+
+/* More films poster grid */
+.more-films { margin-top: clamp(3rem, 7vw, 5.5rem); }
+.more-films h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; margin: .3rem 0 1.8rem; }
+.poster-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: clamp(1.2rem, 3vw, 2rem); }
+.poster-card { display: flex; flex-direction: column; gap: .5rem; }
+.poster-img { display: block; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: var(--surface); transition: border-color .3s, transform .5s var(--ease); }
+.poster-img:hover { border-color: rgba(215,149,86,.55); transform: translateY(-4px); }
+.poster-img img { display: block; width: 100%; height: auto; }
+.poster-card h3 { font-size: 1.25rem; font-weight: 400; margin: .6rem 0 0; color: #fff; }
+.poster-year { font-size: .85rem; color: var(--text-dim); margin-left: .35rem; }
+.poster-role { margin: 0; font-size: .92rem; color: var(--text-dim); }
+.poster-card .card-link { margin-top: auto; padding-top: .3rem; }
