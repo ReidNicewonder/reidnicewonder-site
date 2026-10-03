@@ -419,3 +419,46 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .lead-credit { grid-template-columns: 1fr; }
   .lead-poster { max-width: 240px; }
 }
+
+/* Vlogs list + Halo 3 page */
+.inline-link { position: relative; z-index: 3; color: var(--accent-bright); text-decoration: underline; text-decoration-color: rgba(238,174,114,.4); text-underline-offset: 3px; }
+.inline-link:hover { text-decoration-color: currentColor; }
+.vlog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: clamp(1rem, 2.5vw, 2rem); }
+.vlog-card { display: flex; flex-direction: column; }
+.vlog-card .halo-media img { height: auto; }
+.vlog-dur { position: absolute; z-index: 1; right: .6rem; bottom: .6rem; padding: .15rem .45rem; border-radius: 3px; background: rgba(11,12,14,.82); color: var(--text); font-size: .75rem; font-weight: 500; font-variant-numeric: lining-nums; }
+.vlog-body { position: relative; z-index: 1; padding: 1.1rem 1.3rem 1.4rem; display: flex; flex-direction: column; flex: 1; }
+.vlog-body .card-meta { margin-bottom: .5rem; }
+.vlog-body h3 { font-size: 1.3rem; font-weight: 400; line-height: 1.25; margin-bottom: .6rem; }
+.vlog-body h3 a { color: #fff; text-decoration: none; }
+.vlog-body p { font-size: .95rem; color: var(--text-dim); margin-bottom: 1rem; }
+.vlog-body .card-link { margin-top: auto; }
+.vlog-card:hover .card-link i { transform: translateX(6px); }
+.vlog-more { margin-top: 2rem; text-align: center; }
+.vlog-more a, .video-alt a { color: var(--accent-bright); }
+.video-frame { position: relative; width: 100%; max-width: 1000px; margin-inline: auto; aspect-ratio: 16 / 9; border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; background: #000; box-shadow: 0 18px 50px rgba(0,0,0,.5); }
+.video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-alt { text-align: center; margin: .9rem 0 0; }
+.halo-intro { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(2rem, 6vw, 6rem); align-items: start; margin-top: clamp(2.5rem, 5vw, 4rem); }
+.halo-intro .bio { margin-top: 0; }
+.halo-text { color: var(--text-dim); max-width: 34rem; }
+.halo-text a { color: var(--accent-bright); }
+.halo-intro .stats { margin-top: 0; padding-top: 0; border-top: 0; }
+.xpost-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 2.5rem); align-items: start; margin-bottom: clamp(3rem, 6vw, 5rem); }
+.xpost { margin: 0; min-width: 0; display: flex; flex-direction: column; align-items: center; }
+.xpost .twitter-tweet { margin: 0 auto !important; }
+.xpost-role { align-self: stretch; max-width: 550px; width: 100%; margin: 0 auto .6rem; font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+.xpost-stats { max-width: 550px; width: 100%; margin: .7rem auto 0; font-size: .85rem; color: var(--text-dim); font-variant-numeric: lining-nums; line-height: 1.6; }
+.xpost-stats span { color: var(--text-faint); font-size: .78rem; }
+.xpost blockquote { max-width: 550px; border-left: 2px solid var(--accent); padding-left: 1rem; color: var(--text-dim); }
+.xpost blockquote a, .ig-wrap blockquote a { color: var(--accent-bright); }
+.ig-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: clamp(3rem, 6vw, 5rem); }
+.ig-wrap .xpost-stats { text-align: left; max-width: 540px; }
+.coverage { list-style: none; margin: 0 0 1.5rem; padding: 0; max-width: 46rem; border-top: 1px solid var(--line-strong); }
+.coverage li { display: flex; flex-direction: column; gap: .2rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+.coverage a { font-family: var(--font-display); font-size: 1.15rem; color: var(--text); text-decoration: none; }
+.coverage a:hover { color: var(--accent-bright); }
+.coverage span { font-size: .85rem; color: var(--text-faint); }
+@media (max-width: 960px) {
+  .halo-intro, .xpost-grid { grid-template-columns: 1fr; }
+}
