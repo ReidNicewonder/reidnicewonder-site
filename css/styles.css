@@ -527,3 +527,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .poster-year { font-size: .85rem; color: var(--text-dim); margin-left: .35rem; }
 .poster-role { margin: 0; font-size: .92rem; color: var(--text-dim); }
 .poster-card .card-link { margin-top: auto; padding-top: .3rem; }
+
+.poster-watch { margin-top: .6rem; gap: .4rem; }
+.poster-watch .watch-btn { min-height: 38px; padding: .4rem .85rem; font-size: .8rem; }
+.poster-watch .watch-btn img.logo-wide { height: 16px; }
+.award-watch { margin-top: 1.2rem; }
+.se-socials { justify-content: flex-start; margin-top: 1.4rem; }
