@@ -557,3 +557,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .car-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); background: rgba(0,0,0,.65); color: #fff; font-size: 1.6rem; line-height: 1; cursor: pointer; }
 .car-btn:hover, .car-btn:focus-visible { border-color: var(--accent); color: var(--accent-bright); }
 .car-prev { left: .5rem; } .car-next { right: .5rem; }
+
+.credit-list a.credit-title { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+.credit-list a.credit-title:hover, .credit-list a.credit-title:focus-visible { color: var(--accent-bright); border-bottom-color: var(--accent); }
