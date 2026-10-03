@@ -543,3 +543,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .premiere-grid figure:nth-child(3) img { aspect-ratio: auto; }
 .premiere-grid figcaption { font-size: .85rem; color: var(--muted, #aaa); padding-top: .4rem; }
 @media (max-width: 760px) { .premiere-grid { grid-template-columns: 1fr 1fr; } }
+
+.bts { margin: 0 0 clamp(5rem, 9vw, 8rem); }
+.bts h2 { margin-bottom: 1.5rem; }
+.bts-video { width: 100%; max-width: 960px; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--line); display: block; }
+.bts-link { margin-top: .75rem; font-size: .9rem; }
