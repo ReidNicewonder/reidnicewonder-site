@@ -463,3 +463,4 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .halo-intro, .xpost-grid { grid-template-columns: 1fr; }
 }
 .contact-more { margin: -2rem 0 3rem; line-height: 1.9; }
+.def-credit { display:block; margin-top:.6rem; font-size:.8rem; opacity:.7; }
