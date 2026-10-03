@@ -314,7 +314,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .x-note .x-note-stats { font-size: .85rem; color: var(--text-faint); }
 .x-note .reply { font-size: 1.05rem; margin: .9rem 0; }
 .sub-head { font-size: clamp(1.6rem, 3.4vw, 2.4rem); font-weight: 300; margin-bottom: 2rem; }
-.watch-title { font-size: 1.6rem; margin-bottom: .6rem; }
+.lead-credit .watch-title { font-family: var(--font-body); font-size: .72rem; font-weight: 600; font-style: normal; letter-spacing: .18em; text-transform: uppercase; color: var(--text-dim); margin: 0 0 .9rem; }
 .about-copy .bio { margin-top: 0; }
 .about-copy p:not(.bio) { color: var(--text-dim); max-width: 36rem; }
 .about-copy p em { color: var(--text); }
@@ -396,3 +396,26 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .pm-plain small { color: var(--text-dim); }
 @media (max-width: 800px) { .pm-map { height: 380px; } .pm-hint { text-align: left; } .pm-filter { justify-content: flex-start; } .pm-list { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .pm-list { grid-template-columns: 1fr; } }
+
+/* Film: Sanctuary poster + where to watch */
+.film-lead { grid-template-columns: 1.3fr 1fr; }
+.lead-credit { display: grid; grid-template-columns: minmax(150px, 200px) 1fr; gap: clamp(1.4rem, 3vw, 2.4rem); align-items: start; }
+.lead-poster { margin: 0; position: relative; }
+.lead-poster::after { content: ""; position: absolute; inset: 0; border: 1px solid var(--line-strong); pointer-events: none; }
+.lead-poster img { display: block; width: 100%; height: auto; aspect-ratio: 922 / 1400; object-fit: cover; box-shadow: 0 18px 40px rgba(0,0,0,.45); }
+.lead-copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.lead-copy .btn { margin-top: 0; }
+.watch { margin-top: 2rem; padding-top: 1.4rem; border-top: 1px solid var(--line); width: 100%; }
+.lead-credit .watch-title { font-family: var(--font-body); font-size: .72rem; font-weight: 600; font-style: normal; letter-spacing: .18em; text-transform: uppercase; color: var(--text-dim); margin: 0 0 .9rem; }
+.watch-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .6rem; }
+.watch-btn { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: .55rem 1.15rem; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); color: var(--text); font-size: .85rem; font-weight: 500; text-decoration: none; transition: transform .3s var(--ease), border-color .25s, color .25s, background .25s; }
+.watch-btn img { display: block; height: 20px; width: auto; flex: none; }
+.watch-btn img.logo-wide { height: 18px; }
+.watch-btn:hover, .watch-btn:focus-visible { border-color: var(--accent); background: var(--surface-2); color: var(--accent-bright); transform: translateY(-2px); }
+@media (max-width: 900px) {
+  .film-lead { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .lead-credit { grid-template-columns: 1fr; }
+  .lead-poster { max-width: 240px; }
+}
