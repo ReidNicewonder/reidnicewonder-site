@@ -42,7 +42,8 @@
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
       e.preventDefault();
       var f = document.createElement("iframe");
-      f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(box.getAttribute("data-yt")) + "?autoplay=1&rel=0";
+      var vim = box.getAttribute("data-vimeo");
+      f.src = vim ? "https://player.vimeo.com/video/" + encodeURIComponent(vim) + "?autoplay=1&dnt=1" : "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(box.getAttribute("data-yt")) + "?autoplay=1&rel=0";
       f.title = box.getAttribute("data-title") || "YouTube video";
       f.width = 1280; f.height = 720;
       f.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
