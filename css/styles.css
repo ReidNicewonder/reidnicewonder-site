@@ -572,6 +572,13 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .story-timeline p { margin: 0; font-size: 1.1rem; max-width: 44rem; }
 .story-photo { margin: 1.3rem 0 0; max-width: 26rem; }
 .story-photo img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+.story-timeline-wide { max-width: none; }
+.story-photo-feature { max-width: none; margin-top: 1.6rem; }
+.story-pair { display: flex; gap: 1rem; align-items: flex-start; margin-top: 1.3rem; max-width: 46rem; }
+.story-pair .story-photo { margin: 0; max-width: none; min-width: 0; }
+.story-pair .story-photo-land { flex: 1.333 1 0; }
+.story-pair .story-photo-port { flex: .75 1 0; }
+@media (max-width: 640px) { .story-pair { flex-direction: column; gap: 1.2rem; } .story-pair .story-photo { flex: none; width: 100%; } .story-pair .story-photo-port { max-width: 20rem; } }
 .story-photo figcaption, .se-photos figcaption { font-size: .85rem; color: var(--text-dim); }
 .story-photo figcaption { margin-top: .5rem; }
 .story-why { max-width: 46rem; margin: 0 0 clamp(3rem, 6vw, 4.5rem); padding: clamp(1.4rem, 3vw, 2rem) clamp(1.4rem, 3vw, 2.2rem); border: 1px solid var(--line); border-left: 2px solid var(--accent); border-radius: 4px; background: var(--surface); }
