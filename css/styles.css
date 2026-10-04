@@ -560,3 +560,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 .credit-list a.credit-title { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line-strong); }
 .credit-list a.credit-title:hover, .credit-list a.credit-title:focus-visible { color: var(--accent-bright); border-bottom-color: var(--accent); }
+
+.watch-films { margin-top: clamp(3rem, 7vw, 5.5rem); }
+.watch-films h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; margin: .3rem 0 1.8rem; }
