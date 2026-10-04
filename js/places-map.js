@@ -49,9 +49,10 @@
   }
 
   function yearText(p) {
-    return p.years.map(function (y) { return y.y + (y.tag ? " (" + y.tag + ")" : ""); }).join(" \u00b7 ");
+    return (p.years || []).map(function (y) { return y.y + (y.tag ? " (" + y.tag + ")" : ""); }).join(" \u00b7 ");
   }
-  function firstYear(p) { return Math.min.apply(null, p.years.map(function (y) { return y.y; })); }
+  function firstYear(p) { return p.years && p.years.length ? Math.min.apply(null, p.years.map(function (y) { return y.y; })) : 9999; }
+  function titleFor(p) { var t = yearText(p); return t ? p.name + ", " + t : p.name; }
   places.sort(function (a, b) { return firstYear(a) - firstYear(b) || a.name.localeCompare(b.name); });
 
   function popupFor(p) {
@@ -60,7 +61,20 @@
     var h = document.createElement("strong"); h.textContent = p.name; d.appendChild(h);
     var sub = [p.sub, p.note, p.approx ? "Pin at " + p.approx + " (approximate)" : ""].filter(Boolean);
     sub.forEach(function (t) { var s = document.createElement("span"); s.className = "pm-sub"; s.textContent = t; d.appendChild(s); });
-    var y = document.createElement("span"); y.className = "pm-years"; y.textContent = yearText(p); d.appendChild(y);
+    var yt = yearText(p);
+    if (yt) { var y = document.createElement("span"); y.className = "pm-years"; y.textContent = yt; d.appendChild(y); }
+    if (p.photo && p.photo.src) {
+      var f = document.createElement("figure"); f.className = "pm-photo";
+      var pic = document.createElement("picture");
+      var so = document.createElement("source"); so.type = "image/webp"; so.srcset = p.photo.src + ".webp"; pic.appendChild(so);
+      var im = document.createElement("img");
+      im.src = p.photo.src + ".jpg"; im.alt = p.photo.alt || ""; im.width = p.photo.w || 800; im.height = p.photo.h || 600; im.decoding = "async";
+      // Popup size is measured when it opens; re-fit it (and keep it on screen) once the photo has loaded.
+      im.addEventListener("load", function () { if (p.marker && p.marker.isPopupOpen()) p.marker.getPopup().update(); });
+      pic.appendChild(im); f.appendChild(pic);
+      if (p.photo.caption) { var fc = document.createElement("figcaption"); fc.textContent = p.photo.caption; f.appendChild(fc); }
+      d.appendChild(f);
+    }
     return d;
   }
 
@@ -68,8 +82,8 @@
   var activeItem = null;
   places.forEach(function (p) {
     var icon = L.divIcon({ className: "pm-pin", html: "<span></span>", iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -11] });
-    p.marker = L.marker([p.lat, p.lng], { icon: icon, title: p.name + ", " + yearText(p), alt: p.name, riseOnHover: true, keyboard: true });
-    p.marker.bindPopup(popupFor(p), { closeButton: true, autoPanPadding: [24, 24], maxWidth: 260 });
+    p.marker = L.marker([p.lat, p.lng], { icon: icon, title: titleFor(p), alt: p.name, riseOnHover: true, keyboard: true });
+    p.marker.bindPopup(popupFor(p), { closeButton: true, autoPanPadding: [24, 24], maxWidth: p.photo ? 300 : 260, minWidth: p.photo ? 240 : 50 });
     p.marker.on("popupopen", function () { setActive(p); });
     p.marker.on("popupclose", function () { setActive(null); });
 
@@ -77,8 +91,8 @@
     var b = document.createElement("button");
     b.type = "button"; b.className = "pm-item";
     var n = document.createElement("span"); n.className = "pm-item-name"; n.textContent = p.name + (p.sub ? " \u2013 " + p.sub : "");
-    var yy = document.createElement("span"); yy.className = "pm-item-years"; yy.textContent = yearText(p);
-    b.appendChild(n); b.appendChild(yy);
+    b.appendChild(n);
+    if (yearText(p)) { var yy = document.createElement("span"); yy.className = "pm-item-years"; yy.textContent = yearText(p); b.appendChild(yy); }
     b.addEventListener("click", function () { flyTo(p); });
     li.appendChild(b);
     p.item = li; p.btn = b;
@@ -94,14 +108,16 @@
   function flyTo(p) {
     var z = Math.max(map.getZoom(), 6);
     var target = [p.lat, p.lng];
-    if (reduce) map.setView(target, z, { animate: false }); else map.flyTo(target, z, { duration: 1.1 });
-    p.marker.openPopup();
+    // Open the popup after the camera settles so its auto-pan keeps the (taller) photo popup inside the map.
+    map.closePopup();
+    if (reduce) { map.setView(target, z, { animate: false }); p.marker.openPopup(); }
+    else { map.once("moveend", function () { p.marker.openPopup(); }); map.flyTo(target, z, { duration: 1.1 }); }
     mapEl.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
   }
 
   // Year filter
   var yearSet = {};
-  places.forEach(function (p) { p.years.forEach(function (y) { yearSet[y.y] = true; }); });
+  places.forEach(function (p) { (p.years || []).forEach(function (y) { yearSet[y.y] = true; }); });
   var years = Object.keys(yearSet).map(Number).sort(function (a, b) { return a - b; });
   var current = "all";
   var buttons = [];
@@ -126,7 +142,7 @@
     current = val;
     buttons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.val === val ? "true" : "false"); });
     map.closePopup();
-    var shown = places.filter(function (p) { return val === "all" || p.years.some(function (y) { return String(y.y) === val; }); });
+    var shown = places.filter(function (p) { return val === "all" || (p.years || []).some(function (y) { return String(y.y) === val; }); });
     places.forEach(function (p) {
       var on = shown.indexOf(p) !== -1;
       p.item.hidden = !on;
