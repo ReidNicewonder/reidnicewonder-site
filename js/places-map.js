@@ -70,7 +70,7 @@
       var im = document.createElement("img");
       im.src = p.photo.src + ".jpg"; im.alt = p.photo.alt || ""; im.width = p.photo.w || 800; im.height = p.photo.h || 600; im.decoding = "async";
       // Popup size is measured when it opens; re-fit it (and keep it on screen) once the photo has loaded.
-      im.addEventListener("load", function () { if (p.marker && p.marker.isPopupOpen()) p.marker.getPopup().update(); });
+      im.addEventListener("load", function () { if (p.marker && p.marker.isPopupOpen()) { p.marker.getPopup().update(); fitPopup(p); } });
       pic.appendChild(im); f.appendChild(pic);
       if (p.photo.caption) { var fc = document.createElement("figcaption"); fc.textContent = p.photo.caption; f.appendChild(fc); }
       d.appendChild(f);
@@ -78,13 +78,41 @@
     return d;
   }
 
+  function fitPopup(p) {
+    if (!p.marker || !p.marker.isPopupOpen()) return;
+    var el = p.marker.getPopup().getElement();
+    if (!el) return;
+    var a = el.getBoundingClientRect(), m = mapEl.getBoundingClientRect(), pad = 16, dx = 0, dy = 0;
+    if (a.top < m.top + pad) dy = a.top - (m.top + pad); else if (a.bottom > m.bottom - pad) dy = a.bottom - (m.bottom - pad);
+    if (a.left < m.left + pad) dx = a.left - (m.left + pad); else if (a.right > m.right - pad) dx = a.right - (m.right - pad);
+    if (dx || dy) map.panBy([dx, dy], { animate: !reduce });
+  }
+
   var layer = L.layerGroup().addTo(map);
   var activeItem = null;
   places.forEach(function (p) {
-    var icon = L.divIcon({ className: "pm-pin", html: "<span></span>", iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -11] });
-    p.marker = L.marker([p.lat, p.lng], { icon: icon, title: titleFor(p), alt: p.name, riseOnHover: true, keyboard: true });
-    p.marker.bindPopup(popupFor(p), { closeButton: true, autoPanPadding: [24, 24], maxWidth: p.photo ? 300 : 260, minWidth: p.photo ? 240 : 50 });
-    p.marker.on("popupopen", function () { setActive(p); });
+    // 40px hit area around the 22px dot (easier to tap); pins with a photo sit above their neighbours.
+    var icon = L.divIcon({ className: "pm-pin" + (p.photo ? " pm-pin-photo" : ""), html: "<span></span>", iconSize: [40, 40], iconAnchor: [20, 20], popupAnchor: [0, -14] });
+    p.marker = L.marker([p.lat, p.lng], { icon: icon, title: titleFor(p), alt: p.name, riseOnHover: true, keyboard: true, zIndexOffset: p.photo ? 1000 : 0 });
+    p.marker.on("add", function () {
+      var el = p.marker.getElement();
+      if (!el || el.__pmKey) return;
+      el.__pmKey = true;
+      el.setAttribute("role", "button");
+      el.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); p.marker.openPopup(); } });
+    });
+    p.marker.bindPopup(popupFor(p), { closeButton: true, autoPan: false, maxWidth: p.photo ? 300 : 260, minWidth: p.photo ? 240 : 50 });
+    p.marker.on("popupopen", function () {
+      setActive(p);
+      // At the zoomed-out overview the map sits at its max bounds, so a tall photo popup cannot pan into view and gets
+      // clipped (worst on phones). Zoom to the pin first, then pan the popup fully inside the map.
+      if (p.photo && map.getZoom() < 5) {
+        map.once("zoomend", function () { setTimeout(function () { fitPopup(p); }, 80); });
+        map.setView([p.lat, p.lng], 6, { animate: !reduce });
+      } else {
+        setTimeout(function () { fitPopup(p); }, 60);
+      }
+    });
     p.marker.on("popupclose", function () { setActive(null); });
 
     var li = document.createElement("li");

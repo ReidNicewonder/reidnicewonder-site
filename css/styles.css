@@ -352,8 +352,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .pm-map:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 3px; }
 .pm-hint { margin: .6rem 0 0; text-align: right; color: var(--text-faint); font-size: .8rem; }
 .pm-map .leaflet-container, .pm-map.leaflet-container { font-family: var(--font-body); background: #0e0f12; }
-.pm-pin { background: none; border: 0; }
-.pm-pin span { display: block; width: 22px; height: 22px; box-sizing: border-box; border-radius: 50%; background: var(--accent); border: 2px solid var(--accent-bright); box-shadow: 0 0 0 5px rgba(215,149,86,.25), 0 2px 6px rgba(0,0,0,.6); transition: transform .2s var(--ease), box-shadow .2s; }
+.pm-pin { background: none; border: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.pm-pin span { display: block; flex: none; pointer-events: none; width: 22px; height: 22px; box-sizing: border-box; border-radius: 50%; background: var(--accent); border: 2px solid var(--accent-bright); box-shadow: 0 0 0 5px rgba(215,149,86,.25), 0 2px 6px rgba(0,0,0,.6); transition: transform .2s var(--ease), box-shadow .2s; }
 .pm-pin:hover span, .pm-pin.is-active span { transform: scale(1.25); background: var(--accent-bright); box-shadow: 0 0 0 7px rgba(238,174,114,.3), 0 2px 8px rgba(0,0,0,.6); }
 .pm-pin:focus { outline: none; }
 .pm-pin:focus-visible span { outline: 2px solid #fff; outline-offset: 3px; }
@@ -388,6 +388,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .pm-plain small { color: var(--text-dim); }
 @media (max-width: 800px) { .pm-map { height: 380px; } .pm-hint { text-align: left; } .pm-filter { justify-content: flex-start; } .pm-list { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .pm-list { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .pm-popup .pm-photo img { aspect-ratio: 16 / 10; } .pm-popup .pm-photo { margin-top: .5rem; } }
 
 /* Film: Sanctuary poster + where to watch */
 .film-lead { grid-template-columns: minmax(0, 1fr); gap: clamp(2.5rem, 5vw, 4rem); }
